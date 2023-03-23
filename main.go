@@ -1,13 +1,16 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"patterns/composite"
 	"patterns/factory"
 	"patterns/observer"
 	"patterns/singleton"
+	"patterns/state"
 	"patterns/strategy"
+	"strings"
 )
 
 func main() {
@@ -15,7 +18,8 @@ func main() {
 	//callComposite()
 	//callFactory()
 	//callSingleton()
-	callStrategy()
+	//callStrategy()
+	callState()
 }
 
 func callObserver() {
@@ -38,8 +42,8 @@ func callComposite() {
 
 func callFactory() {
 	printHeader("factory")
-	f := getCreator()
-	car := f.Create()
+	c := getCreator()
+	car := c.Create()
 	car.Drive()
 }
 
@@ -69,6 +73,36 @@ func callStrategy() {
 	printHeader("strategy")
 	cs := strategy.NewCompressionService()
 	cs.Compress(os.File{})
+}
+
+func callState() {
+	r := bufio.NewReader(os.Stdin)
+	var in string
+	p := state.NewPhone()
+	for {
+		printPhoneOptions()
+		in, _ = r.ReadString('\n')
+		in = strings.TrimRight(in, "\n")
+		if in == "3" {
+			break
+		}
+		switch in {
+		case "1":
+			p.PressPower()
+		case "2":
+			p.PressHome()
+		default:
+			fmt.Println("error: invalid option")
+		}
+	}
+	fmt.Println("Bye")
+}
+
+func printPhoneOptions() {
+	fmt.Println()
+	fmt.Println("1: Power button")
+	fmt.Println("2: Home")
+	fmt.Println("3: Throw phone into ocean")
 }
 
 func printHeader(t string) {
