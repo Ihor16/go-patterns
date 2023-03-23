@@ -2,49 +2,23 @@ package state
 
 import "fmt"
 
-const LOCKED = "locked"
-const OFF = "off"
-const READY = "ready"
+var state State
 
 type Phone struct {
-	state string
 }
 
 func NewPhone() *Phone {
-	return &Phone{state: OFF}
+	p := &Phone{}
+	state = newStateOff(p)
+	return p
 }
 
 func (p *Phone) PressHome() {
-	switch p.state {
-	case OFF:
-		p.turnOn()
-		p.setState(LOCKED)
-	case LOCKED:
-		p.unlock()
-		p.home()
-		p.setState(READY)
-	case READY:
-		p.setState(READY)
-	default:
-		fmt.Println("error: invalid transition")
-	}
+	state.pressHome()
 }
 
 func (p *Phone) PressPower() {
-	switch p.state {
-	case OFF:
-		p.turnOn()
-		p.lock()
-		p.setState(LOCKED)
-	case LOCKED:
-		p.turnOff()
-		p.setState(OFF)
-	case READY:
-		p.turnOff()
-		p.setState(OFF)
-	default:
-		fmt.Println("error: invalid transition")
-	}
+	state.pressPower()
 }
 
 func (p *Phone) lock() {
@@ -67,7 +41,7 @@ func (p *Phone) turnOff() {
 	fmt.Println("Turning off phone")
 }
 
-func (p *Phone) setState(s string) {
-	fmt.Println("=> TRANSITION: FROM", p.state, "TO", s)
-	p.state = s
+func (p *Phone) setState(s State) {
+	fmt.Println("=> TRANSITION: FROM", state.getName(), "TO", s.getName())
+	state = s
 }

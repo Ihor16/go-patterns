@@ -77,16 +77,15 @@ func callStrategy() {
 
 func callState() {
 	r := bufio.NewReader(os.Stdin)
-	var in string
+	var input string
 	p := state.NewPhone()
 	for {
 		printPhoneOptions()
-		in, _ = r.ReadString('\n')
-		in = strings.TrimRight(in, "\n")
-		if in == "3" {
+		input = readInput(r)
+		if input == "3" {
 			break
 		}
-		switch in {
+		switch input {
 		case "1":
 			p.PressPower()
 		case "2":
@@ -98,11 +97,18 @@ func callState() {
 	fmt.Println("Bye")
 }
 
+// readInput reads user input and returns it without the trailing newline character
+func readInput(r *bufio.Reader) string {
+	in, _ := r.ReadString('\n')
+	in = strings.TrimRight(in, "\n")
+	return in
+}
+
 func printPhoneOptions() {
 	fmt.Println()
 	fmt.Println("1: Power button")
-	fmt.Println("2: Home")
-	fmt.Println("3: Throw phone into ocean")
+	fmt.Println("2: Home button")
+	fmt.Println("3: Throw into ocean")
 }
 
 func printHeader(t string) {

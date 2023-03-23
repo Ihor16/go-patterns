@@ -1,8 +1,5 @@
 package strategy
 
-type CompressionStrategyFactory struct {
-}
-
 func createStrategy() CompressionStrategy {
 	if isUnix() {
 		return newTarCompressor()
