@@ -78,6 +78,7 @@ func callStrategy() {
 }
 
 func callState() {
+	printHeader("state")
 	r := bufio.NewReader(os.Stdin)
 	var input string
 	p := state.NewPhone()
@@ -114,7 +115,10 @@ func printPhoneOptions() {
 }
 
 func callAdapter() {
-	ms := adapter.NewMusicStore(adapter.CSVMusicDB{}, adapter.JSONMusicDB{})
+	printHeader("adapter")
+	csvAdapter := adapter.NewCSVAdapter(adapter.CsvDB{})
+	jsonAdapter := adapter.NewJSONAdapter(adapter.JsonDB{})
+	ms := adapter.NewMusicStore([]adapter.MusicStoreAdapter{csvAdapter, jsonAdapter})
 	ms.GetRecords()
 }
 

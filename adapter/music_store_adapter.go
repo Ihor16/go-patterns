@@ -1,5 +1,5 @@
 package adapter
 
-type RecordGetter interface {
+type MusicStoreAdapter interface {
 	GetRecords() []Record
 }

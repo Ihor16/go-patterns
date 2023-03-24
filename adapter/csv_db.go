@@ -2,10 +2,10 @@ package adapter
 
 import "fmt"
 
-type CSVMusicDB struct {
+type CsvDB struct {
 }
 
-func (C CSVMusicDB) GetRecordsAsCSV() string {
+func (C CsvDB) GetRecordsAsCSV() string {
 	fmt.Println("returning music records as CSV")
 	return ""
 }

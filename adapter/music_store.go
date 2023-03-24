@@ -1,31 +1,17 @@
 package adapter
 
-import "fmt"
-
 type MusicStore struct {
-	csvDB  CSVMusicDB
-	jsonDB JSONMusicDB
+	adapters []MusicStoreAdapter
 }
 
-func NewMusicStore(csvDB CSVMusicDB, jsonDB JSONMusicDB) *MusicStore {
-	return &MusicStore{csvDB: csvDB, jsonDB: jsonDB}
+func NewMusicStore(adapters []MusicStoreAdapter) *MusicStore {
+	return &MusicStore{adapters: adapters}
 }
 
 func (m *MusicStore) GetRecords() []Record {
-	csv := m.csvDB.GetRecordsAsCSV()
-	csvRecords := m.convertCSVToRecords(csv)
-	json := m.jsonDB.GetRecordsAsJSON()
-	jsonRecords := m.convertJSONToRecords(json)
-	combined := append(csvRecords, jsonRecords...)
+	var combined []Record
+	for _, adapter := range m.adapters {
+		combined = append(combined, adapter.GetRecords()...)
+	}
 	return combined
-}
-
-func (m *MusicStore) convertCSVToRecords(_ string) []Record {
-	fmt.Println("converting csv to records slice")
-	return nil
-}
-
-func (m *MusicStore) convertJSONToRecords(_ string) []Record {
-	fmt.Println("converting json to records slice")
-	return nil
 }
