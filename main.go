@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"patterns/adapter"
 	"patterns/composite"
 	"patterns/factory"
 	"patterns/observer"
@@ -19,7 +20,8 @@ func main() {
 	//callFactory()
 	//callSingleton()
 	//callStrategy()
-	callState()
+	//callState()
+	callAdapter()
 }
 
 func callObserver() {
@@ -109,6 +111,11 @@ func printPhoneOptions() {
 	fmt.Println("1: Power button")
 	fmt.Println("2: Home button")
 	fmt.Println("3: Throw into ocean")
+}
+
+func callAdapter() {
+	ms := adapter.NewMusicStore(adapter.CSVMusicDB{}, adapter.JSONMusicDB{})
+	ms.GetRecords()
 }
 
 func printHeader(t string) {
